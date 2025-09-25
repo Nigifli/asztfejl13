@@ -2,6 +2,8 @@
 
 public class ManufacturerService(AppDbContext dbContext) : IManufacturerService
 {
+    private const int ROW_COUNT = 10;
+
     public async Task<ErrorOr<ManufacturerModel>> CreateAsync(ManufacturerModel manufacturer)
     {
         bool exists = await dbContext.Manufacturers.AnyAsync(x => x.Name == manufacturer.Name);
@@ -27,7 +29,7 @@ public class ManufacturerService(AppDbContext dbContext) : IManufacturerService
     public async Task<ErrorOr<Success>> UpdateAsync(ManufacturerModel manufacturer)
     {
         var result = await dbContext.Manufacturers.AsNoTracking()
-                                                .Where(x => x.Name == manufacturer.Name)
+                                                .Where(x => x.Id == manufacturer.Id)
                                                 .ExecuteUpdateAsync(x => x.SetProperty(p => p.Name, manufacturer.Name));
         return result > 0 ? Result.Success : Error.NotFound();
     }
@@ -57,4 +59,24 @@ public class ManufacturerService(AppDbContext dbContext) : IManufacturerService
         await dbContext.Manufacturers.AsNoTracking()
                                    .Select(x => new ManufacturerModel(x))
                                    .ToListAsync();
+
+    public async Task<ErrorOr<PaginationModel<ManufacturerModel>>> GetPagedAsync(int page = 0)
+    {
+        page = page <= 0 ? 1 : page - 1;
+
+        var manufacturers = await dbContext.Manufacturers.AsNoTracking()
+                                                     .Include(x => x.Name)
+                                                     .Skip(page * ROW_COUNT)
+                                                     .Take(ROW_COUNT)
+                                                     .Select(x => new ManufacturerModel(x))
+                                                     .ToListAsync();
+
+        var paginationModel = new PaginationModel<ManufacturerModel>
+        {
+            Items = manufacturers,
+            Count = await dbContext.Manufacturers.CountAsync()
+        };
+
+        return paginationModel;
+    }
 }

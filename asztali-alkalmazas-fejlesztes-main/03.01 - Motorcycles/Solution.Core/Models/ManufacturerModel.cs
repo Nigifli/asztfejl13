@@ -6,42 +6,35 @@ namespace Solution.Core.Models;
 public partial class ManufacturerModel : ObservableObject
 {
     [ObservableProperty]
+    [JsonPropertyName("id")]
     private int id;
 
     [ObservableProperty]
+    [JsonPropertyName("name")]
     private string name;
 
     public ManufacturerModel()
     {
     }
 
-    public ManufacturerModel(int id, string name)
+    public ManufacturerModel(ManufacturerEntity entity)
     {
-        Id = id;
-        Name = name;
+        this.Id = entity.Id;
+        this.Name = entity.Name;
     }
 
     public ManufacturerEntity ToEntity()
     {
         return new ManufacturerEntity
         {
-            Name = name
+            Id = Id,
+            Name = Name
         };
-    }
-
-    public ManufacturerModel(ManufacturerEntity entity)
-    {
-        if(entity is null)
-        {
-            return;
-        }
-
-        Id = entity.Id;
-        Name = entity.Name;
     }
 
     public void ToEntity(ManufacturerEntity entity)
     {
-        entity.Name = name;
+        entity.Id = Id;
+        entity.Name = Name;
     }
 }

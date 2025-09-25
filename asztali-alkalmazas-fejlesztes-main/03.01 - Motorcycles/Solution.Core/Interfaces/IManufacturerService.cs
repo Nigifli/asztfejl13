@@ -8,4 +8,5 @@ public interface IManufacturerService
     Task<ErrorOr<Success>> DeleteAsync(int manufacturerId);
     Task<ErrorOr<ManufacturerModel>> GetByIdAsync(int manufacturerId);
     Task<ErrorOr<List<ManufacturerModel>>> GetAllAsync();
+    Task<ErrorOr<PaginationModel<ManufacturerModel>>> GetPagedAsync(int page = 0);
 }

@@ -2,6 +2,8 @@
 
 public class TypeService(AppDbContext dbContext) : ITypeService
 {
+    private const int ROW_COUNT = 10;
+
     public async Task<ErrorOr<TypeModel>> CreateAsync(TypeModel type)
     {
         bool exists = await dbContext.Types.AnyAsync(x => x.Name == type.Name);
@@ -15,46 +17,66 @@ public class TypeService(AppDbContext dbContext) : ITypeService
         var singleType = type.ToEntity();
         singleType.Name = Guid.NewGuid().ToString();
 
-        await dbContext.Manufacturers.AddAsync(singleManufacturer);
+        await dbContext.Types.AddAsync(singleType);
         await dbContext.SaveChangesAsync();
 
-        return new ManufacturerModel(singleManufacturer)
+        return new TypeModel(singleType)
         {
-            Name = manufacturer.Name
+            Name = type.Name
         };
     }
 
-    public async Task<ErrorOr<Success>> UpdateAsync(ManufacturerModel manufacturer)
+    public async Task<ErrorOr<Success>> UpdateAsync(TypeModel type)
     {
-        var result = await dbContext.Manufacturers.AsNoTracking()
-                                                .Where(x => x.Name == manufacturer.Name)
-                                                .ExecuteUpdateAsync(x => x.SetProperty(p => p.Name, manufacturer.Name));
+        var result = await dbContext.Types.AsNoTracking()
+                                                .Where(x => x.Id == type.Id)
+                                                .ExecuteUpdateAsync(x => x.SetProperty(p => p.Name, type.Name));
         return result > 0 ? Result.Success : Error.NotFound();
     }
 
-    public async Task<ErrorOr<Success>> DeleteAsync(int manufacturerId)
+    public async Task<ErrorOr<Success>> DeleteAsync(int typeId)
     {
-        var result = await dbContext.Manufacturers.AsNoTracking()
-                                                .Where(x => x.Id == manufacturerId)
+        var result = await dbContext.Types.AsNoTracking()
+                                                .Where(x => x.Id == typeId)
                                                 .ExecuteDeleteAsync();
 
         return result > 0 ? Result.Success : Error.NotFound();
     }
 
-    public async Task<ErrorOr<ManufacturerModel>> GetByIdAsync(int manufacturerId)
-    {
-        var manufacturer = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == manufacturerId);
+    public async Task<ErrorOr<TypeModel>> GetByIdAsync(int typeId) { 
+    
+        var type = await dbContext.Types.FirstOrDefaultAsync(x => x.Id == typeId);
 
-        if (manufacturer is null)
+        if (type is null)
         {
-            return Error.NotFound(description: "Manufacturer not found.");
+            return Error.NotFound(description: "Type not found.");
         }
 
-        return new ManufacturerModel(manufacturer);
+        return new TypeModel(type);
     }
 
-    public async Task<ErrorOr<List<ManufacturerModel>>> GetAllAsync() =>
-        await dbContext.Manufacturers.AsNoTracking()
-                                   .Select(x => new ManufacturerModel(x))
+    public async Task<ErrorOr<List<TypeModel>>> GetAllAsync() =>
+        await dbContext.Types.AsNoTracking()
+                                   .Select(x => new TypeModel(x))
                                    .ToListAsync();
+
+    public async Task<ErrorOr<PaginationModel<TypeModel>>> GetPagedAsync(int page = 0)
+    {
+        page = page <= 0 ? 1 : page - 1;
+
+        var types = await dbContext.Types.AsNoTracking()
+                                                     .Include(x => x.Name)
+                                                     .Skip(page * ROW_COUNT)
+                                                     .Take(ROW_COUNT)
+                                                     .Select(x => new TypeModel(x))
+                                                     .ToListAsync();
+
+        var paginationModel = new PaginationModel<TypeModel>
+        {
+            Items = types,
+            Count = await dbContext.Types.CountAsync()
+        };
+
+        return paginationModel;
+    }
 }

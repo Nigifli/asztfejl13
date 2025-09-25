@@ -3,33 +3,24 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Solution.Core.Models;
 
-public partial class TypeModel: ObservableObject
+public partial class TypeModel : ObservableObject
 {
     [ObservableProperty]
+    [JsonPropertyName("id")]
     private int id;
 
     [ObservableProperty]
+    [JsonPropertyName("name")]
     private string name;
 
     public TypeModel()
     {
     }
 
-    public TypeModel(int id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
-
     public TypeModel(MotorcycleTypeEntity entity)
     {
-        if (entity is null)
-        {
-            return;
-        }
-
-        Id = entity.Id;
-        Name = entity.Name;
+        this.Id = entity.Id;
+        this.Name = entity.Name;
     }
 
     public MotorcycleTypeEntity ToEntity()
@@ -37,14 +28,20 @@ public partial class TypeModel: ObservableObject
         return new MotorcycleTypeEntity
         {
             Id = Id,
-            Name = Name
+            Name = name
         };
     }
 
     public void ToEntity(MotorcycleTypeEntity entity)
     {
-        entity.Id = Id;
-        entity.Name = Name;
-       
+        entity.Id = id;
+        entity.Name = name;
     }
+
+   public override bool Equals(object? obj)
+    {
+        return obj is TypeModel type &&
+            this.Id == type.Id &&
+            this.Name == type.Name;
+    } 
 }
