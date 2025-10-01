@@ -2,9 +2,9 @@ namespace Solution.DesktopApp.Views;
 
 public partial class ManufacturerListView : ContentPage
 {
-    public TypeListViewModel ViewModel => this.BindingContext as TypeListViewModel;
+    public ManufacturerListViewModel ViewModel => this.BindingContext as ManufacturerListViewModel; //
 
-    public static string Name => nameof(TypeListView);
+    public static string Name => nameof(ManufacturerListView); //
 
     public ManufacturerListView(ManufacturerListViewModel viewModel)
     {

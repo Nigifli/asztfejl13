@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               Text="Types"
+               Text="Manufacturers"
                Style="{x:StaticResource PageTitle}" />
 
         <ScrollView Grid.Row="1">
