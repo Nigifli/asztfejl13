@@ -34,7 +34,7 @@
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Image Source="{Binding Image}" />
             </Border>
-            <Button Text="Plese select an image"
+            <Button Text="Please select an image"
                     Margin="0,5"
                     Command="{Binding ImageSelectCommand}" />
         </StackLayout>

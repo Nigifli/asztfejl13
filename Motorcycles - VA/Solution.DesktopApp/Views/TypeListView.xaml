@@ -42,7 +42,7 @@
 
                         <Label Grid.Column="0"
                                Text="Name"
-                               HorizontalTextAlignment="Center"
+                               HorizontalTextAlignment="Start"
                                Style="{x:StaticResource TableHeader}" />
                         <Label Grid.Column="1"
                                Text="Edit"

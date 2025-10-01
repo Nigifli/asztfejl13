@@ -1,4 +1,8 @@
-﻿namespace Solution.Api.Configurations;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Solution.Api.Configurations;
 
 public static class DatabaseConfiguration
 {

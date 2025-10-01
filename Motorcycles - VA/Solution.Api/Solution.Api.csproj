@@ -3,8 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+		<EnableDefaultContentItems>false</EnableDefaultContentItems>
 	</PropertyGroup>
+
 
 
 	<ItemGroup>

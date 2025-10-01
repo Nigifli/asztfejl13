@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Solution.Database.Migrations;
-
-namespace Solution.Validators;
+﻿namespace Solution.Validators;
 
 public class ManufacturerModelValidator : BaseValidator<ManufacturerModel>
 {
