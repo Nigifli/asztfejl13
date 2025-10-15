@@ -15,12 +15,12 @@ namespace Solution.Database.Migrations
                     [Manufacturer]
                     ([Name])
                 values
-                    ('Honda'),
-                    ('Yamaha'),
-                    ('Suzuki'),
-                    ('Triumph'),
-                    ('Harley-Davidson'),
-                    ('Kawasaki')
+                    ('Apple'),
+                    ('Samsung'),
+                    ('Beats'),
+                    ('Xiaomi'),
+                    ('Huawei'),
+                    ('Honor')
             ";
 
             migrationBuilder.Sql(query);

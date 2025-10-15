@@ -68,12 +68,6 @@ namespace Solution.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Manufacturer_Name",
-                table: "Manufacturer",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Earbud_ManufacturerId",
                 table: "Earbud",
                 column: "ManufacturerId");
@@ -82,6 +76,12 @@ namespace Solution.Database.Migrations
                 name: "IX_Earbud_TypeId",
                 table: "Earbud",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Manufacturer_Name",
+                table: "Manufacturer",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Type_Name",

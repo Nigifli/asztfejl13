@@ -19,7 +19,7 @@ public partial class EarbudModel: ObservableObject
     private ManufacturerModel manufacturer;
 
     [ObservableProperty]
-    [JsonPropertyName("")]
+    [JsonPropertyName("type")]
     private TypeModel type;
 
     [ObservableProperty]

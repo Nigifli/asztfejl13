@@ -17,30 +17,12 @@ namespace Solution.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Manufacturer", (string)null);
-                });
 
             modelBuilder.Entity("Solution.Database.Entities.EarbudEntity", b =>
                 {
@@ -83,7 +65,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Earbud", (string)null);
+                    b.ToTable("Earbud");
                 });
 
             modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
@@ -104,7 +86,28 @@ namespace Solution.Database.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Type", (string)null);
+                    b.ToTable("Type");
+                });
+
+            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Manufacturer");
                 });
 
             modelBuilder.Entity("Solution.Database.Entities.EarbudEntity", b =>
@@ -126,12 +129,12 @@ namespace Solution.Database.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
+            modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
                 {
                     b.Navigation("Earbuds");
                 });
 
-            modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
+            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
                 {
                     b.Navigation("Earbuds");
                 });

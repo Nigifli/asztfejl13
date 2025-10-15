@@ -43,28 +43,25 @@ var booksInThe1900s = books.Where(x => x.ReleaseYear >= 1900)
 await File.WriteAllLinesAsync("1900.txt", booksInThe1900s, encoding: Encoding.UTF8);
 
 //Rendezzük az adatokat a könyvek oldalainak száma szerint csökkenő sorrendbe és a sorbarakott.txt állományba mentsük el.
-var sortedBypages = books.OrderByDescending(x => x.NumberOfPages)
+var sortedByPages = books.OrderByDescending(x => x.NumberOfPages)
                          .Select(x => x.ToFullyString());
 
-await File.WriteAllLinesAsync("sorbarakott.txt", sortedBypages, encoding: Encoding.UTF8);
+await File.WriteAllLinesAsync("sorbarakott.txt", sortedByPages, encoding: Encoding.UTF8);
 
 //„kategoriak.txt” állományba mentse el a könyveket téma szerint.
-var groupedByTheme = books
-    .GroupBy(b => b.Theme)
-    .OrderBy(g => g.Key);
+var groupByTheme = books.GroupBy(x => x.Theme).ToDictionary(k => k.Key, v => v.ToList());
+var stringBuilder = new StringBuilder();
 
-using (var writer = new StreamWriter("kategoriak.txt", false, Encoding.UTF8))
+foreach (var group in groupByTheme) 
 {
-    foreach (var group in groupedByTheme)
-    {
-        await writer.WriteLineAsync($"{group.Key}:");
-        foreach (var book in group)
-        {
-            await writer.WriteLineAsync($"\t - {book.Title}");
-        }
-        await writer.WriteLineAsync();
+    stringBuilder.AppendLine($"{group.Key}:");
+
+    foreach (var book in group.Value)
+    { 
+        stringBuilder.AppendLine($"\t - {book.ToString()}");
     }
 }
 
+await File.WriteAllTextAsync("kategoriak.txt", stringBuilder.ToString(), Encoding.UTF8);
 
 Console.ReadKey();
