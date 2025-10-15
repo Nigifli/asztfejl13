@@ -29,10 +29,6 @@ public partial class EarbudModel: ObservableObject
     [ObservableProperty]
     private int? releaseYear;
 
-    [ObservableProperty]
-    [JsonPropertyName("numberOfCylinders")]
-    private int? numberOfCylinders;
-
     public EarbudModel()
     {
     }

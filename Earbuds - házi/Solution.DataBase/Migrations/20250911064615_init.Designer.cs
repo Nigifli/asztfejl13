@@ -131,7 +131,7 @@ namespace Solution.Database.Migrations
 
             modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
                 {
-                    b.Navigation("Motorcycles");
+                    b.Navigation("Earbuds");
                 });
 
             modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
