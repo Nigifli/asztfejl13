@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Solution.Database.Migrations;
-
-namespace Solution.Validators;
+﻿namespace Solution.Validators;
 
 public class EarbudModelValidator : BaseValidator<EarbudModel>
 {
@@ -11,7 +8,7 @@ public class EarbudModelValidator : BaseValidator<EarbudModel>
     public static string ReleaseYearProperty => nameof(EarbudModel.ReleaseYear);
     public static string GlobalProperty => "Global";
 
-    public EarbudModelValidator(IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)
+    public EarbudModelValidator(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
     {
         if (IsPutMethod)
         {
@@ -20,7 +17,7 @@ public class EarbudModelValidator : BaseValidator<EarbudModel>
         }
 
         RuleFor(x => x.Model).NotEmpty().WithMessage("Model is required");
-        
+
         RuleFor(x => x.Manufacturer).NotNull().WithMessage("Manufacturer is required");
 
         RuleFor(x => x.Manufacturer.Id).GreaterThan(0).WithMessage("Manufacturer's ID has to be greater than 0");
@@ -33,7 +30,7 @@ public class EarbudModelValidator : BaseValidator<EarbudModel>
         RuleFor(x => x.Type).NotNull().WithMessage("Type is required");
 
         RuleFor(x => x.Type.Id).GreaterThan(0).WithMessage("Type's ID has to be greater than 0");
-        
+
         RuleFor(x => x.ReleaseYear).NotNull().WithMessage("Release year is required")
                                    .InclusiveBetween(1900, DateTime.Now.Year).WithMessage("Invalid release year");
     }

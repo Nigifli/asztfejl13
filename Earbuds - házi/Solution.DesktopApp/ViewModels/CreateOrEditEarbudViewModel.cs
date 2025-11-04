@@ -37,9 +37,6 @@ public partial class CreateOrEditEarbudViewModel(
     private IList<TypeModel> types = [];
 
     [ObservableProperty]
-    private IList<uint> cylinders = [1, 2, 3, 4, 6, 8];
-
-    [ObservableProperty]
     private ImageSource image;
 
     private FileResult selectedFile = null;
@@ -188,10 +185,7 @@ public partial class CreateOrEditEarbudViewModel(
         this.Manufacturer = new ManufacturerModel();
         this.Type = new TypeModel();
         this.Model = null;
-        this.Cubic = 0;
         this.ReleaseYear = 0;
-        this.NumberOfCylinders = 0;
-
         this.Image = null;
         this.selectedFile = null;
         this.WebContentLink = null;

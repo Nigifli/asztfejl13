@@ -11,7 +11,7 @@ using Solution.DataBase;
 namespace Solution.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250911065549_manufacturers")]
+    [Migration("20251015062548_manufacturers")]
     partial class manufacturers
     {
         /// <inheritdoc />
@@ -20,30 +20,12 @@ namespace Solution.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Manufacturer");
-                });
 
             modelBuilder.Entity("Solution.Database.Entities.EarbudEntity", b =>
                 {
@@ -110,6 +92,27 @@ namespace Solution.Database.Migrations
                     b.ToTable("Type");
                 });
 
+            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Manufacturer");
+                });
+
             modelBuilder.Entity("Solution.Database.Entities.EarbudEntity", b =>
                 {
                     b.HasOne("Solution.Database.Entities.ManufacturerEntity", "Manufacturer")
@@ -129,12 +132,12 @@ namespace Solution.Database.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
+            modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
                 {
                     b.Navigation("Earbuds");
                 });
 
-            modelBuilder.Entity("Solution.Database.Entities.EarbudTypeEntity", b =>
+            modelBuilder.Entity("Solution.Database.Entities.ManufacturerEntity", b =>
                 {
                     b.Navigation("Earbuds");
                 });

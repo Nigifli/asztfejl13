@@ -66,18 +66,10 @@
                                Text="Release Year"
                                HorizontalTextAlignment="End"
                                Style="{x:StaticResource TableHeader}" />
-                        <Label Grid.Column="5"
-                               Text="Number Of Cylinders"
-                               HorizontalTextAlignment="End"
-                               Style="{x:StaticResource TableHeader}" />
-                        <Label Grid.Column="6"
-                               Text="Cubic"
-                               HorizontalTextAlignment="End"
-                               Style="{x:StaticResource TableHeader}" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:EarbudModel">

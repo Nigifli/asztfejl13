@@ -15,7 +15,7 @@ public class ManufacturerController(IManufacturerService manufacturerService) : 
     }
 
     [HttpGet]
-    [Route("api/manufacturer/id/{id}")]
+    [Route("api/manufacturer/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute][Required] int id)
     {
         var result = await manufacturerService.GetByIdAsync(id);
