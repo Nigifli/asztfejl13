@@ -19,18 +19,18 @@ foreach (var line in fileData)
         Country = data[5],
     });
 }
-//Írjuk ki a képernyőre az össz adatot
+//1.
 Console.WriteLine("Összes adat:");
 foreach (var player in players) {
     Console.WriteLine(player);
 }
 
-//Keressük ki az ütő játékosokat az utok.txt állömányba
+//2.
 var hitters = players.Where(x => x.Post == "ütõ").Select(x => x.ToStringPost());
 
 await File.WriteAllLinesAsync("utok.txt", hitters, encoding: Encoding.UTF8);
 
-//A csapattagok.txt állományba mentsük a csapatokat és a hozzájuk tartozó játékosokat
+//3.
 var groupedByTeam = players
     .GroupBy(b => b.Team)
     .OrderBy(g => g.Key);
@@ -48,15 +48,14 @@ using (var writer = new StreamWriter("csapattagok.txt", false, Encoding.UTF8))
     }
 }
 
-//Rendezzük a játékosokat magasság szerint növekvő sorrendbe és a magaslatok.txt állományba mentsük el.
+//4.
 var highs = players.OrderBy(x => x.Height).Select(x => x.ToString());
 
 await File.WriteAllLinesAsync("magaslatok.txt", highs, encoding: Encoding.UTF8);
 
-// Mutassuk be a nemzetisegek.txt állományba, hogy mely nemzetiségek képviseltetik magukat a röplabdavilágban mint játékosok és milyen számban.
+// 5.
 var groupedByNationality = players
-    .GroupBy(b => b.Nationality)
-    .OrderBy(g => g.Key);
+    .GroupBy(b => b.Nationality);
 
 using (var writer = new StreamWriter("nemzetisegek.txt", false, Encoding.UTF8))
 {
@@ -71,23 +70,17 @@ using (var writer = new StreamWriter("nemzetisegek.txt", false, Encoding.UTF8))
     }
 }
 
-//atlagnalmagasabbak.txt állományba keressük azon játékosok nevét és magasságát akik magasabbak mint az „adatbázisban” szereplő játékosok átlagos magasságánál.
+//6.
 var sumOfHeights = 0;
 var numberOfPlayers = 0;
 
-foreach (var player in players) 
-{ 
-    sumOfHeights += player.Height;
-    numberOfPlayers++;
-}
-
-var averageHeight = sumOfHeights / numberOfPlayers;
+var averageHeight = players.Average(x => x.Height);
 
 var playersHigherThanAverage = players.Where(x => x.Height >= averageHeight).Select(x => x.ToString());
 
 await File.WriteAllLinesAsync("atlagnalmagasabbak.txt", playersHigherThanAverage, encoding: Encoding.UTF8);
 
-//Állítsa növekvő sorrendbe a posztok szerint a játékosok ösz magasságát
+//7.
 var groupByPost = players.GroupBy(x => x.Post)
                          .OrderBy(g => g.Key);
 
@@ -99,7 +92,7 @@ foreach (var group in groupByPost) {
     }
 }
 
-//Egy szöveges állományba, „alacsonyak.txt” keresse ki a játékosok átlagmagasságától alacsonyabb játékosokat. Az állomány tartalmazza a játékosok nevét,  magasságát és hogy mennyivel alacsonyabbak az átlagnál, 2 tizedes pontossággal.
+//8.
 var playersShorterThanAverage = players.Where(x => x.Height < averageHeight).Select(x => x.ToStringDwarves());
 
 await File.WriteAllLinesAsync("alacsonyak.txt", playersShorterThanAverage, encoding: Encoding.UTF8);
