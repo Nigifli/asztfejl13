@@ -8,8 +8,8 @@
              xmlns:models="clr-namespace:Solution.Core.Models;assembly=Solution.Core"
              xmlns:behaviors="clr-namespace:Solution.DesktopApp.Behaviors"
              xmlns:validator="clr-namespace:Solution.Validators;assembly=Solution.Validators"
-             x:Class="Solution.DesktopApp.Views.CreateOrEditMotorcycleView"
-             x:DataType="viewModels:CreateOrEditMotorcycleViewModel"
+             x:Class="Solution.DesktopApp.Views.CreateOrEditBillView"
+             x:DataType="viewModels:CreateOrEditBillViewModel"
              x:Name="this">
   
     <ContentPage.Behaviors>

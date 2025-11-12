@@ -116,6 +116,9 @@
 	  <Compile Update="Components\BillListComponent.xaml.cs">
 	    <DependentUpon>BillListComponent.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\CreateOrEditBillView.xaml.cs">
+	    <DependentUpon>CreateOrEditBillView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\MainView.xaml.cs">
 	    <DependentUpon>MainView.xaml</DependentUpon>
 	  </Compile>
@@ -128,7 +131,7 @@
 	  <MauiXaml Update="Components\BillListComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CreateOrEditMotorcycleView.xaml">
+	  <MauiXaml Update="Views\CreateOrEditBillView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\BillListView.xaml">

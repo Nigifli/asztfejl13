@@ -1,12 +1,12 @@
 namespace Solution.DesktopApp.Views;
 
-public partial class MotorcycleListView : ContentPage
+public partial class BillListView : ContentPage
 {
 	public BillListViewModel ViewModel => this.BindingContext as BillListViewModel;
 
-	public static string Name => nameof(MotorcycleListView);
+	public static string Name => nameof(BillListView);
 
-    public MotorcycleListView(BillListViewModel viewModel)
+    public BillListView(BillListViewModel viewModel)
 	{
 		this.BindingContext = viewModel;
 

@@ -1,7 +1,7 @@
 ﻿namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
-public partial class BillListViewModel(IMotorcycleService motorcycleService)
+public partial class BillListViewModel(IBillService billService)
 {
     #region life cycle commands
     public IAsyncRelayCommand AppearingCommand => new AsyncRelayCommand(OnAppearingAsync);
@@ -18,19 +18,19 @@ public partial class BillListViewModel(IMotorcycleService motorcycleService)
     #endregion
 
     [ObservableProperty]
-    private ObservableCollection<BillModel> motorcycles;
+    private ObservableCollection<BillModel> bills;
 
     private int page = 1;
     private bool isLoading = false;
     private bool hasNextPage = false;
-    private int numberOfMotorcyclesInDB = 0;
+    private int numberOfBillsInDB = 0;
 
     private async Task OnAppearingAsync()
     {
         PreviousPageCommand = new Command(async () => await OnPreviousPageAsync(), () => page > 1 && !isLoading);
         NextPageCommand = new Command(async () => await OnNextPageAsync(), () => !isLoading && hasNextPage);
 
-        await LoadMotorcyclesAsync();
+        await LoadBillsAsync();
     }
 
     private async Task OnDisappearingAsync()
@@ -41,7 +41,7 @@ public partial class BillListViewModel(IMotorcycleService motorcycleService)
         if (isLoading) return;
 
         page = page <= 1 ? 1 : --page;
-        await LoadMotorcyclesAsync();
+        await LoadBillsAsync();
     }
 
     private async Task OnNextPageAsync()
@@ -49,25 +49,25 @@ public partial class BillListViewModel(IMotorcycleService motorcycleService)
         if (isLoading) return;
 
         page++;
-        await LoadMotorcyclesAsync();
+        await LoadBillsAsync();
     }
 
-    private async Task LoadMotorcyclesAsync()
+    private async Task LoadBillsAsync()
     {
         isLoading = true;
 
-        var result = await motorcycleService.GetPagedAsync(page);
+        var result = await billService.GetPagedAsync(page);
 
         if (result.IsError)
         {
-            await Application.Current.MainPage.DisplayAlert("Error", "Motorcycles not loaded!", "OK");
+            await Application.Current.MainPage.DisplayAlert("Error", "Bills not loaded!", "OK");
             return;
         }
 
-        Motorcycles = new ObservableCollection<BillModel>(result.Value.Items);
-        numberOfMotorcyclesInDB = result.Value.Count;
+        Bills = new ObservableCollection<BillModel>(result.Value.Items);
+        numberOfBillsInDB = result.Value.Count;
 
-        hasNextPage = numberOfMotorcyclesInDB - (page * 10) > 0;
+        hasNextPage = numberOfBillsInDB - (page * 10) > 0;
         isLoading = false;
 
         ((Command)PreviousPageCommand).ChangeCanExecute();
@@ -76,19 +76,19 @@ public partial class BillListViewModel(IMotorcycleService motorcycleService)
 
     private async Task OnDeleteAsync(string? id)
     { 
-        var result = await motorcycleService.DeleteAsync(id);
+        var result = await billService.DeleteAsync(id);
 
-        var message = result.IsError ? result.FirstError.Description : "Motorcycle deleted.";
+        var message = result.IsError ? result.FirstError.Description : "Bill deleted.";
         var title = result.IsError ? "Error" : "Information";
 
         if (!result.IsError)
         {
-            var motorcycle = motorcycles.SingleOrDefault(x => x.Id == id);
-            motorcycles.Remove(motorcycle);
+            var bill = bills.SingleOrDefault(x => x.Id = id);
+            bills.Remove(bill);
 
-            if(motorcycles.Count == 0)
+            if(bills.Count == 0)
             {
-                await LoadMotorcyclesAsync();
+                await LoadBillsAsync();
             }
         }
 
