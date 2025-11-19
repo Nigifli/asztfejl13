@@ -74,7 +74,7 @@ public partial class BillListViewModel(IBillService billService)
         ((Command)NextPageCommand).ChangeCanExecute();
     }
 
-    private async Task OnDeleteAsync(string? id)
+    private async Task OnDeleteAsync(string? id) // mas megoldas! idegen kulcs
     { 
         var result = await billService.DeleteAsync(id);
 
@@ -83,8 +83,8 @@ public partial class BillListViewModel(IBillService billService)
 
         if (!result.IsError)
         {
-            var bill = bills.SingleOrDefault(x => x.Id = id);
-            bills.Remove(bill);
+            var billNumber = bills.SingleOrDefault(x => x.Id == billNumber);
+            bills.Remove(billNumber);
 
             if(bills.Count == 0)
             {

@@ -2,8 +2,7 @@
 
 public partial class CreateOrEditBillViewModel(
     AppDbContext dbContext,
-    IBillService billService,
-    IGoogleDriveService googleDriveService) : BillModel, IQueryAttributable
+    IBillService billService) : BillModel, IQueryAttributable
 {
     #region life cycle commands
     public IAsyncRelayCommand AppearingCommand => new AsyncRelayCommand(OnAppearingkAsync);
