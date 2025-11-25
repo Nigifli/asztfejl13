@@ -1,33 +1,36 @@
 ﻿using NB1;
 using System.Text;
 
-// Adatok beolvasása
 var fileData = await File.ReadAllLinesAsync("adatok.txt", Encoding.UTF8);
 
+Player playerLine;
 var players = new List<Player>();
+var i = 0;
 
-foreach (var line in fileData)
+foreach (var line in fileData) 
 {
     if (string.IsNullOrWhiteSpace(line)) continue;
     var data = line.Split('\t');
-    DateTime birthDate;
-    if (!DateTime.TryParse(data[4], out birthDate))
-    {
-        birthDate = new DateTime(2000, 1, 1);
-    }
 
-    players.Add(new Player
+    playerLine = new Player();
+
+    playerLine.Club = data[i];
+    playerLine.Number = int.Parse(data[++i]);
+    playerLine.FirstName = data[++i];
+
+    if (data.Length == 9)
     {
-        Club = data[0],
-        Number = int.Parse(data[1]),
-        FirstName = data[2],
-        LastName = data[3],
-        BirthDate = birthDate,
-        Hungarian = data[5] == "-1",
-        Foreign = data[6] == "-1",
-        Value = int.Parse(data[7]),
-        Position = data[8]
-    });
+        playerLine.LastName = data[++i];
+    }    
+
+    playerLine.BirthDate = DateTime.Parse(data[++i]);
+    playerLine.Hungarian = data[++i] == "-1";
+    playerLine.Foreign = data[++i] == "-1";
+    playerLine.Value = int.Parse(data[++i]);
+    playerLine.Position = data[++i];  
+
+    players.Add(playerLine);
+    i = 0;
 }
 
 // 1. Összes adat kiíratása
@@ -103,7 +106,7 @@ using (var writer = new StreamWriter("hazai.txt", false, Encoding.UTF8))
         await writer.WriteLineAsync($"{group.Key}:");
         foreach (var player in group)
         {
-            await writer.WriteLineAsync($"\t- {player.FullName} ({player.Position}) – {player.Value} eEUR");
+            await writer.WriteLineAsync($"\t- {player.FullName} ({player.Position}) – {player.Value}");
         }
         await writer.WriteLineAsync();
     }
@@ -116,7 +119,7 @@ using (var writer = new StreamWriter("legios.txt", false, Encoding.UTF8))
         await writer.WriteLineAsync($"{group.Key}:");
         foreach (var player in group)
         {
-            await writer.WriteLineAsync($"\t- {player.FullName} ({player.Position}) – {player.Value} eEUR");
+            await writer.WriteLineAsync($"\t- {player.FullName} ({player.Position}) – {player.Value}");
         }
         await writer.WriteLineAsync();
     }
