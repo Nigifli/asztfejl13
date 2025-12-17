@@ -8,7 +8,7 @@ namespace Bills.Api.Controllers;
 
 public class BillController(IBillService billService) :BaseController
 {
-    //ALL
+
     [HttpGet]
     [Route("api/bills")]
     public async Task<IActionResult> GetAllAsync()
@@ -20,7 +20,6 @@ public class BillController(IBillService billService) :BaseController
         );
     }
 
-    //BY ID
     [HttpGet]
     [Route("api/bills/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute][Required] int id)
@@ -32,7 +31,6 @@ public class BillController(IBillService billService) :BaseController
         );
     }
 
-    //PAGED
     [HttpGet]
     [Route("api/bills/page/{page}")]
     public async Task<IActionResult> GetPageAsync([FromRoute] int page = 0)
@@ -45,7 +43,6 @@ public class BillController(IBillService billService) :BaseController
         );
     }
 
-    //CREATE
     [HttpPost]
     [Route("api/bills/create")]
     public async Task<IActionResult> CreateAsync([FromBody][Required] BillModel bill)
@@ -57,7 +54,6 @@ public class BillController(IBillService billService) :BaseController
         );
     }
 
-    //UPDATE
     [HttpPut]
     [Route("api/bills/update")]
     public async Task<IActionResult> UpdateAsync([FromBody][Required] BillModel bill)
@@ -69,7 +65,6 @@ public class BillController(IBillService billService) :BaseController
         );
     }
 
-    //DELETE
     [HttpDelete]
     [Route("api/bills/{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute][Required] int id)

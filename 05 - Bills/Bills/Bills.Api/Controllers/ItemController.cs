@@ -1,12 +1,12 @@
 ﻿using Bills.Core.Interfaces;
 using Bills.Core.Models;
+using Bills.Core.Req;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bills.Api.Controllers;
 
 public class ItemController(IItemService itemService) : BaseController
 {
-    //ALL
     [HttpGet]
     [Route("api/items")]
     public async Task<IActionResult> GetAllAsync()
@@ -18,7 +18,6 @@ public class ItemController(IItemService itemService) : BaseController
         );
     }
 
-    //BY ID
     [HttpGet]
     [Route("api/items/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute][Required] int id)
@@ -30,10 +29,9 @@ public class ItemController(IItemService itemService) : BaseController
         );
     }
 
-    //CREATE
     [HttpPost]
     [Route("api/items/create")]
-    public async Task<IActionResult> CreateAsync([FromBody][Required] ItemModel item)
+    public async Task<IActionResult> CreateAsync([FromBody][Required] ItemModelReq item)
     {
         var result = await itemService.CreateAsync(item);
         return result.Match(
@@ -42,10 +40,9 @@ public class ItemController(IItemService itemService) : BaseController
         );
     }
 
-    //UPDATE
     [HttpPut]
     [Route("api/items/update")]
-    public async Task<IActionResult> UpdateAsync([FromBody][Required] ItemModel item)
+    public async Task<IActionResult> UpdateAsync([FromBody][Required] ItemModelReq item)
     {
         var result = await itemService.UpdateAsync(item);
         return result.Match(
@@ -54,7 +51,6 @@ public class ItemController(IItemService itemService) : BaseController
         );
     }
 
-    //DELETE
     [HttpDelete]
     [Route("api/items/delete")]
     public async Task<IActionResult> DeleteAsync([FromBody][Required] ItemModel item)

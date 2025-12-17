@@ -1,7 +1,9 @@
-﻿namespace Bills.Services;
+﻿using Bills.Core.Req;
+
+namespace Bills.Services;
 public class ItemService(AppDbContext dbContext) : IItemService
 {
-    public async Task<ErrorOr<ItemModel>> CreateAsync(ItemModel item)
+    public async Task<ErrorOr<ItemModel>> CreateAsync(ItemModelReq item)
     {
         var newItem = item.ToEntity();
 
