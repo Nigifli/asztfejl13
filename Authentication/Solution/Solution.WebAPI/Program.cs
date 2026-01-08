@@ -4,22 +4,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.LoadEnvironmentVariables()
-       .ConfigureDatabase();
+       .ConfigureDI()
+       .LoadSettings()
+       .ConfigureDatabase()
+       .UseIdentity()
+       .UseSecurity();
 
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseRouting();
+app.UseSecurity();
 app.MapControllers();
 
-app.Run();
+
+await app.RunAsync();
