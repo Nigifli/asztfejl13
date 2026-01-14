@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using Solution.Services.Security;
+using Solution.Services.User;
 
 namespace Solution.WebAPI.Configurations;
 
