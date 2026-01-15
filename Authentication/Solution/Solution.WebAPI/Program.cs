@@ -8,7 +8,10 @@ builder.LoadEnvironmentVariables()
        .LoadSettings()
        .ConfigureDatabase()
        .UseIdentity()
-       .UseSecurity();
+       .UseSecurity()
+       //.UseScalarOpenAPI()
+       //.UseSwashbuckleOpenAPI()
+       .UseReDocOpenAPI();
 
 builder.Services.AddOpenApi();
 
@@ -18,6 +21,9 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSecurity();
 app.MapControllers();
+//app.UseScalarOpenAPI();
+//app.UseSwashbuckleOpenAPI();
+app.UseReDocOpenAPI();
 
 
 await app.RunAsync();

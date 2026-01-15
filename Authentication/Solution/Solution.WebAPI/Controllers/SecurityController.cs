@@ -1,7 +1,10 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Solution.Domain.Models.Requests.Security;
+using Solution.Domain.Models.Responses;
 using Solution.Services.Security;
+using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Solution.WebAPI.Controllers;
@@ -11,6 +14,8 @@ public class SecurityController(ISecurityService securityService) : ControllerBa
 {
     [HttpPost]
     [Route("api/security/register")]
+    [ProducesResponseType(type: typeof(Success), statusCode:  200)]
+    [EndpointDescription("Register a user using email and password.")]
     public async Task<IActionResult> RegisterAsync([FromBody][Required] RegisterRequestModel model)
     {
         var result = await securityService.RegisterAsync(model);
@@ -22,6 +27,8 @@ public class SecurityController(ISecurityService securityService) : ControllerBa
 
     [HttpPost]
     [Route("api/security/login")]
+    [ProducesResponseType(type: typeof(TokenResponseModel), statusCode: 200)]
+    [EndpointDescription("Login using email and password.")]
     public async Task<IActionResult> LoginAsync([FromBody][Required] LoginRequestModel model)
     {
         var result = await securityService.LoginAsync(model);
